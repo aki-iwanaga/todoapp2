@@ -1,6 +1,7 @@
  package kiitos.todoapp2
 
  import io.mockk.*
+ import org.junit.Assert
  import org.junit.jupiter.api.Test
  import org.springframework.boot.test.context.SpringBootTest
 
@@ -23,4 +24,23 @@
         //Then
         verify { spyTodoRepository.save(record) }
     }
+     @Test
+     fun `getTodosが呼ばれた時、リポジトリからTodosを受け取る`(){
+         //Given
+         val todoList: List<TodoRecord> = listOf(
+             TodoRecord(1,"hoge-todo"),
+             TodoRecord(2,"fuga-todo"),
+         )
+         val todos = Todos(
+             listOf("hoge-todo", "fuga-todo")
+         )
+         every {spyTodoRepository.findAll()} returns todoList
+
+         //When
+         val res = todoService.getTodos()
+
+         //Then
+         verify { spyTodoRepository.findAll() }
+         Assert.assertEquals(todos, res)
+     }
  }

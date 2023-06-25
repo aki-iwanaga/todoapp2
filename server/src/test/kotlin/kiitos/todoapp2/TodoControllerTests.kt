@@ -40,4 +40,21 @@ class TodoControllerTests {
 
         verify { spyTodoService.postTodo("hoge-newTodo") }
     }
+    @Test
+    fun `get要求された場合、200OKと受け取ったTodosを返す`() {
+        // Given
+        every { spyTodoService.getTodos() } returns Todos(listOf("hoge-todo", "fuga-todo"))
+
+        // When
+        makeSubject(spyTodoService)
+            .perform(
+                MockMvcRequestBuilders.get("/api/todo")
+            )
+            // Then
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.todos[0]").value("hoge-todo"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.todos[1]").value("fuga-todo"))
+
+        verify { spyTodoService.getTodos() }
+    }
 }
