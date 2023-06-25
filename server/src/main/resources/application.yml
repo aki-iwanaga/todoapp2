@@ -4,3 +4,5 @@ spring:
     url: jdbc:postgresql://localhost:5432/todo
     username: "user"
     password:
+  jpa:
+    generate-ddl: true

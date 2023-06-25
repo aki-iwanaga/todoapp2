@@ -1,7 +1,7 @@
 package kiitos.todoapp2
 
+import io.mockk.*
 import io.mockk.impl.annotations.SpyK
-import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.web.client.AutoConfigureMockRestServiceServer
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -16,8 +16,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 @AutoConfigureMockRestServiceServer
 @AutoConfigureMockMvc
 class TodoControllerTests {
-    @SpyK
-    private var spyTodoService: TodoService = TodoServiceImpl()
+    private val spyTodoService: TodoService = mockk()
 
     private fun makeSubject(config: TodoService): MockMvc {
         return MockMvcBuilders.standaloneSetup(
@@ -26,6 +25,9 @@ class TodoControllerTests {
     }
     @Test
     fun `post要求された場合、serviceのpostTodoにBodyを渡して呼び、200OKを返す`() {
+        // Given
+        every { spyTodoService.postTodo(any()) } just Runs
+
         // When
         makeSubject(spyTodoService)
             .perform(

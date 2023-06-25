@@ -7,7 +7,8 @@ interface TodoService {
 }
 
 @Service
-class TodoServiceImpl : TodoService {
+class TodoServiceImpl(val todoRepository: TodoRepository): TodoService {
     override fun postTodo(todo: String) {
+        todoRepository.save(TodoRecord(todo=todo))
     }
 }
