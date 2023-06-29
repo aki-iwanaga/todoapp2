@@ -9,24 +9,14 @@ describe('todoPage', ()=>{
 
     let spyTodoRepository:TodoRepository
 
-    // const spyTodoRepository = {
-    //     postTodo: jest.fn(),
-    //     getTodos: jest.fn().mockResolvedValue(["hoge-todo","fuga-todo"])
-    // }
-
-    beforeEach(async ()=>{
-        spyTodoRepository = {
+beforeEach(async ()=>{       spyTodoRepository = {
             postTodo: jest.fn(),
-            getTodos: jest.fn()
+            getTodos: jest.fn().mockResolvedValue(["hoge-todo","fuga-todo"])
         }
-        // await act(async () => {
-        //     await render(<TodoPage todoRepository={spyTodoRepository}/>)
-        // })
-        render(<TodoPage todoRepository={spyTodoRepository} />)
-        // await waitFor(() => {
-        //     expect(spyTodoRepository.getTodos).toHaveBeenCalled()
-        //     expect(screen.getByTestId("TodoList")).toBeInTheDocument()
-        // })
+
+        await act(async () => {
+            await render(<TodoPage todoRepository={spyTodoRepository}/>)
+        })
     })
     it('input要素が表示される', ()=>{
         //Then
@@ -40,33 +30,24 @@ describe('todoPage', ()=>{
         //Then
         expect(screen.getByTestId(TestIds.TODO_LIST)).toBeInTheDocument()
     })
-    it('インプットの中身があり、登録ボタンを押すと、repositoryのpostTodoにinputの中身を渡して呼ぶ', ()=>{
+    it('インプットの中身があり、登録ボタンを押すと、repositoryのpostTodoにinputの中身を渡して呼ぶ', async () => {
         //When
-        fireEvent.input(screen.getByRole('textbox'),{ target: { value: 'hoge-todo'}})
-        fireEvent.click(screen.getByRole('button', {name: '登録'}))
+        await act(() => fireEvent.input(screen.getByRole('textbox'), {target: {value: 'hoge-todo'}}))
+        await act(()=> fireEvent.click(screen.getByRole('button', {name: '登録'})))
         //Then
         expect(spyTodoRepository.postTodo).toHaveBeenCalledWith('hoge-todo')
     })
-    it('インプットの中身がなく、登録ボタンを押すと、repositoryを呼ばない', ()=>{
+    it('インプットの中身がなく、登録ボタンを押すと、repositoryを呼ばない', async () => {
         //When
-        fireEvent.input(screen.getByRole('textbox'),{ target: { value: ''}})
-        fireEvent.click(screen.getByRole('button', {name: '登録'}))
+        await act(() => fireEvent.input(screen.getByRole('textbox'), {target: {value: ''}}))
+        await act(() => fireEvent.click(screen.getByRole('button', {name: '登録'})))
         //Then
         expect(spyTodoRepository.postTodo).not.toHaveBeenCalled()
     })
     it('RepositoryのgetTodosを呼び,Todosの中身が表示される', async () => {
-        (spyTodoRepository.getTodos as jest.Mock).mockReturnValue(["hoge-todo","fuga-todo"])
-        // await waitFor(() =>expect(screen.getByText('hoge-todo')).toBeInTheDocument())
-        // await act(async () => {
-        //     await render(<TodoPage todoRepository={spyTodoRepository}/>)
-        // })
-        // await act(async () => {
-        //     await render(<TodoPage todoRepository={spyTodoRepository}/>)
-        // })
-        render(<TodoPage todoRepository={spyTodoRepository} />)
         //Then
         expect(spyTodoRepository.getTodos).toHaveBeenCalled()
-        // await waitFor(() => expect(screen.getByText('hoge-todo')).toBeInTheDocument())
         expect(screen.getByText('hoge-todo')).toBeInTheDocument()
+        expect(screen.getByText('fuga-todo')).toBeInTheDocument()
     })
 })

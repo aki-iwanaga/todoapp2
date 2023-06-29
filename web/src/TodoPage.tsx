@@ -16,7 +16,6 @@ export default function TodoPage({
     const getTodos = async () => {
         try {
             const res = await todoRepository.getTodos()
-            console.log('res',res)
             setTodos(res)
         } catch (e) {
             console.log("エラーが発生しました", e)
@@ -24,13 +23,8 @@ export default function TodoPage({
     }
 
     useAsync(async()=>{
-        console.log("HKSJDFA")
         await getTodos()
     },[])
-
-    useEffect(() => {
-        console.log("todos",todos);
-    }, [todos]);
 
     const onChange = (e:ChangeEvent<HTMLInputElement>) => {
         setNewTodo(e.target.value)
