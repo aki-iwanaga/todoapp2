@@ -1,5 +1,5 @@
 import {NetworkTodoRepository} from "./TodoRepository";
-import {mockedHttpClient} from "./tests/testUtils";
+import {mockedHttpClient} from "../tests/testUtils";
 
 describe('NetworkTodoRepository', ()=>{
     const repos = new NetworkTodoRepository(mockedHttpClient)

@@ -2,6 +2,7 @@ package kiitos.todoapp2
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.*
+import kiitos.todoapp2.models.Todo
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc

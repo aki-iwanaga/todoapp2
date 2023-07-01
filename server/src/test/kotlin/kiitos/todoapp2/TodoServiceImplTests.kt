@@ -1,6 +1,8 @@
  package kiitos.todoapp2
 
  import io.mockk.*
+ import kiitos.todoapp2.models.Todo
+ import kiitos.todoapp2.models.TodoRecord
  import org.junit.Assert
  import org.junit.jupiter.api.Test
  import org.springframework.boot.test.context.SpringBootTest

@@ -1,6 +1,6 @@
-import {TodoRepository} from "./TodoRepository";
+import {TodoRepository} from "./repository/TodoRepository";
 import {useEffect, useRef, useState} from "react";
-import {Todo} from "./Todo";
+import {Todo} from "./models/Todo";
 
 type Props = {
     todoRepository: TodoRepository

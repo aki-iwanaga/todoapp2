@@ -1,4 +1,4 @@
-package kiitos.todoapp2
+package kiitos.todoapp2.models
 
 data class Todo(
     val id: Long,

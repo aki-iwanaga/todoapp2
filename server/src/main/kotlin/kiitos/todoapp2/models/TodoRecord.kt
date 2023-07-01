@@ -1,4 +1,4 @@
-package kiitos.todoapp2
+package kiitos.todoapp2.models
 
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue

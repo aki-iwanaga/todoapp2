@@ -1,5 +1,7 @@
 package kiitos.todoapp2
 
+import kiitos.todoapp2.models.Todo
+import kiitos.todoapp2.models.TodoRecord
 import org.springframework.stereotype.Service
 
 interface TodoService {
@@ -15,6 +17,6 @@ class TodoServiceImpl(val todoRepository: TodoRepository): TodoService {
 
     override fun getTodos(): List<Todo> {
         val res = todoRepository.findAll()
-        return res.map {Todo(it.id, it.todo)}
+        return res.map { Todo(it.id, it.todo) }
     }
 }

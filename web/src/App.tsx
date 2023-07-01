@@ -1,7 +1,6 @@
 import React from 'react';
-import './App.css';
 import TodoPage from "./TodoPage";
-import {NetworkTodoRepository} from "./TodoRepository";
+import {NetworkTodoRepository} from "./repository/TodoRepository";
 import {NetworkHttpClient} from "./NetworkHttpClient";
 
 function App() {
