@@ -19,12 +19,12 @@ class TodoControllerTests {
     private lateinit var mockMvc: MockMvc
 
     @MockkBean
-    private lateinit var spyTodoService: TodoService
+    private lateinit var mockTodoService: TodoService
 
     @Test
     fun `post要求された場合、serviceのpostTodoにBodyを渡して呼び、200OKを返す`() {
         // Given
-        every { spyTodoService.postNewTodo(any()) } just Runs
+        every { mockTodoService.postNewTodo(any()) } just Runs
 
         // When
 //
@@ -36,12 +36,12 @@ class TodoControllerTests {
             // Then
             .andExpect(MockMvcResultMatchers.status().isOk)
 
-        verify { spyTodoService.postNewTodo("hoge-newTodo") }
+        verify { mockTodoService.postNewTodo("hoge-newTodo") }
     }
     @Test
     fun `get要求された場合、200OKと受け取ったTodosを返す`() {
         // Given
-        every { spyTodoService.getTodos() } returns listOf(
+        every { mockTodoService.getTodos() } returns listOf(
             Todo(1,"hoge-todo"),
             Todo(2,"fuga-todo")
         )
@@ -57,6 +57,6 @@ class TodoControllerTests {
             .andExpect(MockMvcResultMatchers.jsonPath("$.todos[1].id").value(2))
             .andExpect(MockMvcResultMatchers.jsonPath("$.todos[1].todo").value("fuga-todo"))
 
-        verify { spyTodoService.getTodos() }
+        verify { mockTodoService.getTodos() }
     }
 }

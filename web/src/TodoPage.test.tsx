@@ -5,9 +5,9 @@ import {act} from "react-dom/test-utils";
 
 describe('todoPage', ()=>{
 
-    let spyTodoRepository:TodoRepository
+    let mockTodoRepository:TodoRepository
 
-    beforeEach(async ()=>{ spyTodoRepository = {
+    beforeEach(async ()=>{ mockTodoRepository = {
             postNewTodo: jest.fn(),
             getTodos: jest.fn().mockResolvedValueOnce([
                 {id: 1, todo:"hoge-todo"},
@@ -16,7 +16,7 @@ describe('todoPage', ()=>{
         }
 
         await act(async () => {
-            await render(<TodoPage todoRepository={spyTodoRepository}/>)
+            await render(<TodoPage todoRepository={mockTodoRepository}/>)
         })
     })
     describe('レンダリング時', ()=>{
@@ -38,7 +38,7 @@ describe('todoPage', ()=>{
         })
         it('RepositoryのgetTodosを呼び,Todoリストの中身が表示される', async () => {
             //Then
-            expect(spyTodoRepository.getTodos).toHaveBeenCalled()
+            expect(mockTodoRepository.getTodos).toHaveBeenCalled()
             expect(screen.getByText('hoge-todo')).toBeInTheDocument()
             expect(screen.getByText('fuga-todo')).toBeInTheDocument()
         })
@@ -52,17 +52,17 @@ describe('todoPage', ()=>{
                     fireEvent.click(screen.getByRole('button', {name: '登録'}))
                 })
                 //Then
-                expect(spyTodoRepository.postNewTodo).toHaveBeenCalledWith('new-todo')
+                expect(mockTodoRepository.postNewTodo).toHaveBeenCalledWith('new-todo')
             })
             it('getTodosを呼ぶ', async () => {
-                expect(spyTodoRepository.getTodos).toHaveBeenCalledTimes(1)
+                expect(mockTodoRepository.getTodos).toHaveBeenCalledTimes(1)
                 //When
                 await act(async() => {
                     fireEvent.input(screen.getByRole('textbox'), {target: {value: 'new-todo'}})
                     fireEvent.click(screen.getByRole('button', {name: '登録'}))
                 })
                 //Then
-                expect(spyTodoRepository.getTodos).toHaveBeenCalledTimes(2)
+                expect(mockTodoRepository.getTodos).toHaveBeenCalledTimes(2)
             })
         })
         it('インプットの中身がなければ、repositoryを呼ばない', async () => {
@@ -70,7 +70,7 @@ describe('todoPage', ()=>{
             await act(() => fireEvent.input(screen.getByRole('textbox'), {target: {value: ''}}))
             await act(() => fireEvent.click(screen.getByRole('button', {name: '登録'})))
             //Then
-            expect(spyTodoRepository.postNewTodo).not.toHaveBeenCalled()
+            expect(mockTodoRepository.postNewTodo).not.toHaveBeenCalled()
         })
     })
 

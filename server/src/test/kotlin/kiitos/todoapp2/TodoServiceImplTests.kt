@@ -9,8 +9,8 @@
 
  @SpringBootTest
  class TodoServiceImplTests {
-    private var spyTodoRepository = mockk <TodoRepository>()
-    val todoService = TodoServiceImpl(spyTodoRepository)
+    private var mockTodoRepository = mockk <TodoRepository>()
+    val todoService = TodoServiceImpl(mockTodoRepository)
 
     @Test
     fun `postTodoが呼ばれた時、リポジトリにsaveを依頼する`(){
@@ -18,13 +18,13 @@
         val record = TodoRecord(
             todo = "hoge-newTodo"
         )
-        every {spyTodoRepository.save(any())} returns record
+        every {mockTodoRepository.save(any())} returns record
 
         //When
         todoService.postNewTodo("hoge-newTodo")
 
         //Then
-        verify { spyTodoRepository.save(record) }
+        verify { mockTodoRepository.save(record) }
     }
     @Test
     fun `getTodosが呼ばれた時、リポジトリからTodosを受け取る`(){
@@ -37,13 +37,13 @@
          Todo(1,"hoge-todo"),
          Todo(2,"fuga-todo")
      )
-     every {spyTodoRepository.findAll()} returns todoList
+     every {mockTodoRepository.findAll()} returns todoList
 
      //When
      val res = todoService.getTodos()
 
      //Then
-     verify { spyTodoRepository.findAll() }
+     verify { mockTodoRepository.findAll() }
      Assert.assertEquals(todos, res)
     }
  }
