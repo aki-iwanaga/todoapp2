@@ -1,9 +1,9 @@
 import {HttpClient} from "./HttpClient";
-import Todo from "./Todo";
+import {Todo} from "./Todo";
 
 export interface TodoRepository {
-    postTodo(newTodo:string): void
-    getTodos(): Promise<string[]>
+    postNewTodo(newTodo:string): void
+    getTodos(): Promise<Todo[]>
 }
 
 export class NetworkTodoRepository implements TodoRepository {
@@ -13,11 +13,11 @@ export class NetworkTodoRepository implements TodoRepository {
         this.httpClient = httpClient
     }
 
-    async postTodo(newTodo:string){
+    async postNewTodo(newTodo:string){
         await this.httpClient.post('/todo', {todo: newTodo})
     }
 
-    async getTodos():Promise<string[]> {
+    async getTodos():Promise<Todo[]> {
         const res = await this.httpClient.get('/todo')
         return res.todos
     }

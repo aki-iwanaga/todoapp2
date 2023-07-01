@@ -4,9 +4,9 @@ import {mockedHttpClient} from "./tests/testUtils";
 describe('NetworkTodoRepository', ()=>{
     const repos = new NetworkTodoRepository(mockedHttpClient)
 
-    it('postTodoが呼ばれたら,backendにpostする', async ()=>{
+    it('postNewTodoが呼ばれたら,backendにpostする', async ()=>{
         //When
-        await repos.postTodo("hoge-newTodo")
+        await repos.postNewTodo("hoge-newTodo")
         //Then
         expect(mockedHttpClient.post).toHaveBeenCalledWith('/todo', {todo: 'hoge-newTodo'})
     })

@@ -3,18 +3,18 @@ package kiitos.todoapp2
 import org.springframework.stereotype.Service
 
 interface TodoService {
-    fun postTodo(todo: String)
-    fun getTodos(): Todos
+    fun postNewTodo(todo: String)
+    fun getTodos(): List<Todo>
 }
 
 @Service
 class TodoServiceImpl(val todoRepository: TodoRepository): TodoService {
-    override fun postTodo(todo: String) {
+    override fun postNewTodo(todo: String) {
         todoRepository.save(TodoRecord(todo=todo))
     }
 
-    override fun getTodos(): Todos {
+    override fun getTodos(): List<Todo> {
         val res = todoRepository.findAll()
-        return Todos(res.map {it.todo})
+        return res.map {Todo(it.id, it.todo)}
     }
 }

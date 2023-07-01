@@ -1,8 +1,6 @@
-import {TestIds} from "./tests/TestIds";
 import {TodoRepository} from "./TodoRepository";
-import {ChangeEvent, useEffect, useState} from "react";
-import Todo from "./Todo";
-import {useAsync} from "react-use";
+import {useEffect, useRef, useState} from "react";
+import {Todo} from "./Todo";
 
 type Props = {
     todoRepository: TodoRepository
@@ -11,7 +9,8 @@ export default function TodoPage({
     todoRepository
 }: Props){
     const [newTodo, setNewTodo] = useState('')
-    const [todos, setTodos] = useState<string[]>([])
+    const [todos, setTodos] = useState<Todo[]>([])
+    const inputRef = useRef<HTMLInputElement>(null)
 
     const getTodos = async () => {
         try {
@@ -22,36 +21,35 @@ export default function TodoPage({
         }
     }
 
-    useAsync(async()=>{
-        await getTodos()
-    },[])
+    useEffect(()=>{
+        getTodos()
+    },[newTodo])
 
-    const onChange = (e:ChangeEvent<HTMLInputElement>) => {
-        setNewTodo(e.target.value)
-    }
     const onClick = async () => {
-       if(newTodo){
-          await todoRepository.postTodo(newTodo)
-           getTodos()
-       } else {
+        const inputValue = inputRef.current?.value;
+        if(inputValue){
+            await todoRepository.postNewTodo(inputValue)
+            setNewTodo(inputValue)
+        } else {
            console.log("inputが空です")
        }
     }
 
     return (
-        <div data-testid = {TestIds.TODO_PAGE}>
+        <>
+            <p>TodoApp チュートリアル</p>
             <input
-                onChange={onChange}
+                ref={inputRef}
             ></input>
             <button
                 onClick={onClick}
                     >登録
             </button>
-            <ul data-testid = {TestIds.TODO_LIST}>
+            <ul>
                 {todos && todos.map((elem, key) => (
-                    <li key={`todoPage ${key}`}>{elem}</li>
+                    <li key={`todoPage ${key}`}>{elem.todo}</li>
                 ))}
             </ul>
-        </div>
+        </>
     )
 }

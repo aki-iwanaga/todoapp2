@@ -1,3 +1,4 @@
-export default interface Todo {
+export type Todo = {
+    id: number
     todo: string
 }

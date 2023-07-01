@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
 import java.lang.Exception
 
-data class TodoBody(
+data class NewTodoBody(
     val todo: String
+)
+
+data class TodosResponse(
+    val todos: List<Todo>
 )
 
 @RestController
@@ -20,16 +24,16 @@ class TodoController(
     val todoService: TodoService
 ) {
     @PostMapping()
-    fun postTodo(
-        @RequestBody param: TodoBody
+    fun postNewTodo(
+        @RequestBody param: NewTodoBody
     ) {
-        todoService.postTodo(param.todo)
+        todoService.postNewTodo(param.todo)
     }
 
     @GetMapping
-    fun getTodos(): Todos{
+    fun getTodos(): TodosResponse{
         try {
-            return todoService.getTodos()
+            return TodosResponse(todoService.getTodos())
         } catch(e: Exception) {
             throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR)
         }
