@@ -2,6 +2,8 @@ import {fireEvent, render, screen} from "@testing-library/react";
 import TodoPage from "./TodoPage";
 import {TodoRepository} from "./repository/TodoRepository";
 import {act} from "react-dom/test-utils";
+import "@testing-library/jest-dom/extend-expect";
+
 
 describe('todoPage', ()=>{
 
