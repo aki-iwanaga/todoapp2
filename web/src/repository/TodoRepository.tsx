@@ -1,5 +1,5 @@
 import {HttpClient} from "../HttpClient";
-import {Todo} from "../models/Todo";
+import {Todo} from "../model/Todo";
 
 export interface TodoRepository {
     postNewTodo(newTodo:string): void
